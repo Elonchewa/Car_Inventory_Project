@@ -1,10 +1,11 @@
 import tkinter as tk
 import tkinter.messagebox
-#Git bash cd command cd c:/Users/mengi/OneDrive/Desktop/Car_Inventory_Proj
+# Git bash cd command cd c:/Users/mengi/OneDrive/Desktop/Car_Inventory_Proj
 
-#in general looks could be better. But they are secondary
-#defining list that will hold entry results
+# in general looks could be better. But they are secondary
+# defining list that will hold entry results
 entryList = list()
+# why not make separate lists for each entry point
 
 
 class myGui:
@@ -35,30 +36,48 @@ class myGui:
         self.window2.title("Inventory Editor")
         self.window2.geometry("300x200")
 
-        self.label_2 = tk.Label(self.window2, text="Add Car Here")
+        self.label_2 = tk.Label(self.window2, text="Add Cars Here")
         self.label_2.pack() #Put Entry ns in their own frame. Withing each car Entry there should be 4 entry widgets: branc, model, year, MPG
+
+        accum = 1 #indicator or counter
+
+        for numb in range(num): #creates the amount of entries user wants
+            self.container = tk.Frame(self.window2)
+            self.container.pack()
+            self.label = tk.Label(self.container, text=f"Entry {accum}")
+            self.label.pack()
+
+            # 4 entry points. You should do grid here
+            self.txt_label_1 = tk.Label(self.container, text="Brand")
+            self.txt_1 = tk.Entry(self.container)
+            self.txt_label_1.pack()
+            self.txt_1.pack()
+            self.txt_label_2 = tk.Label(self.container, text="Model")
+            self.txt_2 = tk.Entry(self.container)
+            self.txt_label_2.pack()
+            self.txt_2.pack()
+            self.txt_label_3 = tk.Label(self.container, text="Year")
+            self.txt_3 = tk.Entry(self.container)
+            self.txt_label_3.pack()
+            self.txt_3.pack()
+            self.txt_label_4 = tk.Label(self.container, text="MPG")
+            self.txt_4 = tk.Entry(self.container)
+            self.txt_label_4.pack()
+            self.txt_4.pack()
+
+            accum += 1
+
         self.button_2 = tk.Button(
             self.window2, text="Submit", command=self.dispEntry)
-        self.button_2.pack()
-
-        labelList = list() #currently unused
-        ind = 1 #indicator or counter
-
-        first = 1 # currently unused
-        for numb in range(num): #creates the amount of entries user wants
-            self.label = tk.Label(self.window2, text=f"Entry {ind}")
-            self.label.pack()
-            self.item = tk.Entry(self.window2) #change attribute name item is very vague
-            self.item.pack()
-            ind += 1
-            entryList.append(self.item.get()) #this doesn't do anything; you are asking it to add the values of the items upon creation which is none. Delete it 
+        self.button_2.pack()    
         tk.mainloop()
 
     def dispEntry(self):
-        #not showing in permanent text. it is editable
-        #Use messagebox here
+        # not showing in permanent text. it is editable
+        # Use messagebox here
         self.window2.destroy()
 
+        # for loop that fetches the entered items. Runs num times
         self.window3 = tk.Tk()
         self.window3.geometry("200x200")
         self.window3.title = "Entry results"
@@ -67,6 +86,5 @@ class myGui:
         self.txt.pack()
 
         tk.mainloop()
-
 
 mygui = myGui()
