@@ -1,21 +1,24 @@
 import tkinter as tk
 import tkinter.messagebox
+#Git bash cd command cd c:/Users/mengi/OneDrive/Desktop/Car_Inventory_Proj
 
+#in general looks could be better. But they are secondary
+#defining list that will hold entry results
 entryList = list()
 
 
 class myGui:
     def __init__(self):
-        self.window = tk.Tk() #creates first prompt page
-        self.window.geometry("500x100") #width x height
-        self.window.title("How many items")
+        self.window1 = tk.Tk() #creates first prompt page
+        self.window1.geometry("500x100") #width x height
+        self.window1.title("How many items")
 
         self.label_1 = tk.Label(
-            self.window, text="How many items do you want to add to inventory?"
+            self.window1, text="How many items do you want to add to inventory?"
         )
-        self.entry_1 = tk.Entry(self.window)
+        self.entry_1 = tk.Entry(self.window1)
         self.button_1 = tk.Button(
-            self.window, text="Submit", command=self.createEntries
+            self.window1, text="Submit", command=self.createEntries #calls the create etnries method. But why is it self.createEntries instead of createEntries only. prolly because if not it would look for a method unrelated to the instance created. self. makes sure it runs the method in the class definition being referenced. 
         )
         self.label_1.pack(side="left")
         self.entry_1.pack(side="left")
@@ -24,16 +27,16 @@ class myGui:
         tk.mainloop()
 
     def createEntries(self):
-        num = int(self.entry_1.get())
+        num = int(self.entry_1.get()) #gets the value entered
 
-        self.window.destroy()
+        self.window1.destroy() #closes window1
 
         self.window2 = tk.Tk()
         self.window2.title("Inventory Editor")
         self.window2.geometry("300x200")
 
-        self.label_2 = tk.Label(self.window2, text="Add inventory Here")
-        self.label_2.pack()
+        self.label_2 = tk.Label(self.window2, text="Add Car Here")
+        self.label_2.pack() #Put Entry ns in their own frame. Withing each car Entry there should be 4 entry widgets: branc, model, year, MPG
         self.button_2 = tk.Button(
             self.window2, text="Submit", command=self.dispEntry)
         self.button_2.pack()
@@ -41,24 +44,26 @@ class myGui:
         labelList = list() #currently unused
         ind = 1 #indicator or counter
 
-        first = 1
+        first = 1 # currently unused
         for numb in range(num): #creates the amount of entries user wants
             self.label = tk.Label(self.window2, text=f"Entry {ind}")
             self.label.pack()
-            self.item = tk.Entry(self.window2) 
+            self.item = tk.Entry(self.window2) #change attribute name item is very vague
             self.item.pack()
             ind += 1
-            entryList.append(self.item.get())
+            entryList.append(self.item.get()) #this doesn't do anything; you are asking it to add the values of the items upon creation which is none. Delete it 
         tk.mainloop()
 
     def dispEntry(self):
+        #not showing in permanent text. it is editable
+        #Use messagebox here
         self.window2.destroy()
 
         self.window3 = tk.Tk()
         self.window3.geometry("200x200")
         self.window3.title = "Entry results"
         self.txt = tk.Text() #find a better widget to hold text. Permanent text.
-        self.txt.insert(tk.END, f"{entryList}") #currently just displays ['','',...]
+        self.txt.insert(tk.END, f"{entryList}") #currently just displays ['','',...]. (That's cus the list is empty) 
         self.txt.pack()
 
         tk.mainloop()
