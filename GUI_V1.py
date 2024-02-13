@@ -64,6 +64,7 @@ class myGui:
             self.txt_4 = tk.Entry(self.container)
             self.txt_label_4.pack()
             self.txt_4.pack()
+            #we need to change the attribute names here or find ways to make them change. Because all corresponding entry points have the same variable. It would produce conflict
 
             accum += 1
 
