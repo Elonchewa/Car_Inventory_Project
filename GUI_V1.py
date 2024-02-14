@@ -34,43 +34,62 @@ class myGui:
 
         self.window2 = tk.Tk()
         self.window2.title("Inventory Editor")
-        self.window2.geometry("300x200")
+        self.window2.geometry("300x100")
 
-        self.label_2 = tk.Label(self.window2, text="Add Cars Here")
-        self.label_2.pack() #Put Entry ns in their own frame. Withing each car Entry there should be 4 entry widgets: branc, model, year, MPG
+        # self.label_2 = tk.Label(self.window2, text="Add Cars Here")
+        # self.label_2.pack() #Put Entry ns in their own frame. Withing each car Entry there should be 4 entry widgets: branc, model, year, MPG
 
-        accum = 1 #indicator or counter
+        # scroll bar define
+        self.scroll_bar = tk.Scrollbar(self.window2, orient="vertical")
+        self.scroll_bar.pack(side="right", fill="y")
 
-        for numb in range(num): #creates the amount of entries user wants
-            self.container = tk.Frame(self.window2)
-            self.container.pack()
-            self.label = tk.Label(self.container, text=f"Entry {accum}")
-            self.label.pack()
+        self.canvas = tk.Canvas(self.window2, yscrollcommand=self.scroll_bar.set)
+        self.canvas.pack(side="left", fill="both", expand=True)
 
-            # 4 entry points. You should do grid here
+        # container frame
+        self.container = tk.Frame(self.canvas)
+        self.canvas.create_window(0,0, anchor='nw', window=self.container)
+
+        self.scroll_bar.config(command=self.canvas.yview) #confugres scroll bar
+
+        accum = 0 #indicator for row number
+        counter = 1 #indicator for how long the loop must run
+
+        while counter<=num:
+            # for numb in range(num): #creates the amount of entries user wants
+            # 4 entry points.
+            self.entry_indicator = tk.Label(self.container, text=f'Entry {counter}')
+            self.entry_indicator.grid(row=accum, column=1, sticky='w')
             self.txt_label_1 = tk.Label(self.container, text="Brand")
-            self.txt_1 = tk.Entry(self.container)
-            self.txt_label_1.pack()
-            self.txt_1.pack()
+            self.txt_label_1.grid(row=accum + 1, column=0, sticky='w')
             self.txt_label_2 = tk.Label(self.container, text="Model")
-            self.txt_2 = tk.Entry(self.container)
-            self.txt_label_2.pack()
-            self.txt_2.pack()
+            self.txt_label_2.grid(row=accum + 1, column=1, sticky="w")
             self.txt_label_3 = tk.Label(self.container, text="Year")
-            self.txt_3 = tk.Entry(self.container)
-            self.txt_label_3.pack()
-            self.txt_3.pack()
+            self.txt_label_3.grid(row=accum + 1, column=2, sticky="w")
             self.txt_label_4 = tk.Label(self.container, text="MPG")
-            self.txt_4 = tk.Entry(self.container)
-            self.txt_label_4.pack()
-            self.txt_4.pack()
-            #we need to change the attribute names here or find ways to make them change. Because all corresponding entry points have the same variable. It would produce conflict
+            self.txt_label_4.grid(row=accum + 1, column=3, sticky="w")
 
-            accum += 1
+            self.txt_1 = tk.Entry(self.container)
+            self.txt_1.grid(row=accum + 2, column=0)
+            self.txt_2 = tk.Entry(self.container)
+            self.txt_2.grid(row=accum + 2, column=1)
+            self.txt_3 = tk.Entry(self.container)
+            self.txt_3.grid(row=accum + 2, column=2)
+            self.txt_4 = tk.Entry(self.container)
+            self.txt_4.grid(row=accum + 2, column=3)
+
+            # we need to change the attribute names here or find ways to make them change. Because all corresponding entry points have the same variable. It would produce conflict
+
+            accum += 3
+            counter += 1
 
         self.button_2 = tk.Button(
-            self.window2, text="Submit", command=self.dispEntry)
-        self.button_2.pack()    
+            self.canvas, text="Submit", command=self.dispEntry)
+        self.button_2.pack()   
+
+        self.container.update_idletasks()
+        self.canvas.config(scrollregion=self.canvas.bbox("all"))
+
         tk.mainloop()
 
     def dispEntry(self):
@@ -85,7 +104,7 @@ class myGui:
         self.txt = tk.Text() #find a better widget to hold text. Permanent text.
         self.txt.insert(tk.END, f"{entryList}") #currently just displays ['','',...]. (That's cus the list is empty) 
         self.txt.pack()
-
+        # give them a display of all they entered and a question of are you sure you want to enter... into the database. Then have Submit or Edit Entry buttons.
         tk.mainloop()
 
 mygui = myGui()
