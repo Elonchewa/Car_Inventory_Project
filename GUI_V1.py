@@ -55,6 +55,16 @@ class myGui:
         accum = 0 #indicator for row number
         counter = 1 #indicator for how long the loop must run
 
+        ency = {}
+        ency['0'] = f'txt{counter}_label_1'
+        ency['1'] = f"txt{counter}_label_2"
+        ency['2'] = f"txt{counter}_label_3"
+        ency['3'] = f"txt{counter}_label_4"
+        ency['4'] = f"txt{counter}_1"
+        ency["5"] = f"txt{counter}_2"
+        ency["6"] = f"txt{counter}_3"
+        ency["7"] = f"txt{counter}_4"
+
         while counter<=num:
             # for numb in range(num): #creates the amount of entries user wants
             # 4 entry points.
@@ -93,6 +103,7 @@ class myGui:
         tk.mainloop()
 
     def dispEntry(self):
+
         # not showing in permanent text. it is editable
         # Use messagebox here
         self.window2.destroy()
@@ -101,9 +112,10 @@ class myGui:
         self.window3 = tk.Tk()
         self.window3.geometry("200x200")
         self.window3.title = "Entry results"
-        self.txt = tk.Text() #find a better widget to hold text. Permanent text.
-        self.txt.insert(tk.END, f"{entryList}") #currently just displays ['','',...]. (That's cus the list is empty) 
-        self.txt.pack()
+
+        # self.txt = tk.Text() #find a better widget to hold text. Permanent text.
+        # self.txt.insert(tk.END, f"{entryList}") #currently just displays ['','',...]. (That's cus the list is empty)
+        # self.txt.pack()
         # give them a display of all they entered and a question of are you sure you want to enter... into the database. Then have Submit or Edit Entry buttons.
         tk.mainloop()
 
