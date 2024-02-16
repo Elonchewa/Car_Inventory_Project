@@ -28,11 +28,10 @@ class myGui:
         tk.mainloop()
 
     def createEntries(self):
-        num = int(
-            self.entry_1.get()
-        )  # gets the value entered. The number of entry sections
+        num = int(self.entry_1.get())# gets the value entered. The number of entry sections
 
-        self.window1.destroy()  # closes window1
+        if self.window1.winfo_exists()==1:# closes window1
+            self.window1.destroy()
 
         self.window2 = tk.Tk()
         self.window2.title("Inventory Editor")
@@ -118,23 +117,16 @@ class myGui:
                 )  # adds the Inventory items into a list. For first entry section, for example, ency 4, 5, 6, and 7 are gotten. Then for the next section we start at ency 12
                 counter += 1
             counter += 4  # since 1 is already added to counter after the end of the inner loop we just add 4 here
-
-        print(data_list)
-        self.window2.destroy()
-
-        # not showing in permanent text. it is editable
-        # Use messagebox here
-
-        # for loop that fetches the entered items. Runs num times
-        # self.window3 = tk.Tk()
-        # self.window3.geometry("200x200")
-        # self.window3.title = "Entry results"
-
-        # self.txt = tk.Text() #find a better widget to hold text. Permanent text.
-        # self.txt.insert(tk.END, f"{entryList}") #currently just displays ['','',...]. (That's cus the list is empty)
-        # self.txt.pack()
-        # give them a display of all they entered and a question of are you sure you want to enter... into the database. Then have Submit or Edit Entry buttons.
-        # tk.mainloop()
+        self.messagebox = tkinter.messagebox.askyesno("Are these correct", f'{data_list}')
+        
+        # added an if statement to createEntries to handle if User wants to return to entry page in case of error
+        if self.messagebox is False:
+            self.window2.destroy()
+            self.__init__() #runs everything froms scratch
+            
+        else:
+            print(data_list)
+            self.window2.destroy()
 
 
 mygui = myGui()
