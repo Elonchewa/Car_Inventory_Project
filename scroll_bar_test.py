@@ -4,9 +4,6 @@ import tkinter.messagebox
 # Git bash cd command cd c:/Users/mengi/OneDrive/Desktop/Car_Inventory_Proj
 
 # in general looks could be better. But they are secondary
-# defining list that will hold entry results
-entryList = list()
-# why not make separate lists for each entry point
 
 
 class myGui:
@@ -22,7 +19,7 @@ class myGui:
         self.button_1 = tk.Button(
             self.window1,
             text="Submit",
-            command=self.createEntries,  # calls the create etnries method. But why is it self.createEntries instead of createEntries only. prolly because if not it would look for a method unrelated to the instance created. self. makes sure it runs the method in the class definition being referenced.
+            command=lambda: self.createEntries(),  # calls the create etnries method.
         )
         self.label_1.pack(side="left")
         self.entry_1.pack(side="left")
@@ -31,16 +28,13 @@ class myGui:
         tk.mainloop()
 
     def createEntries(self):
-        num = int(self.entry_1.get())  # gets the value entered
+        num = int(self.entry_1.get())  # gets the value entered. The number of entry sections
 
         self.window1.destroy()  # closes window1
 
         self.window2 = tk.Tk()
         self.window2.title("Inventory Editor")
-        self.window2.geometry("300x100")
-
-        # self.label_2 = tk.Label(self.window2, text="Add Cars Here")
-        # self.label_2.pack() #Put Entry ns in their own frame. Withing each car Entry there should be 4 entry widgets: branc, model, year, MPG
+        self.window2.geometry("500x100")
 
         # scroll bar define
         self.scroll_bar = tk.Scrollbar(self.window2, orient="vertical")
@@ -62,7 +56,7 @@ class myGui:
         ency_var = 0
 
         while counter <= num:
-            # for numb in range(num): #creates the amount of entries user wants
+            # for numb in range(num): #creates the amount of entry sections user wants
             # 4 entry points.
             ency[f"{ency_var}"] = f"self.txt{counter}_label_1"
             ency[f"{ency_var+1}"] = f"self.txt{counter}_label_2"
@@ -93,36 +87,46 @@ class myGui:
             ency[f"{ency_var+7}"] = tk.Entry(self.container)
             ency[f"{ency_var+7}"].grid(row=accum + 2, column=3)
 
-            # we need to change the attribute names here or find ways to make them change. Because all corresponding entry points have the same variable. It would produce conflict
-
             accum += 3
             counter += 1
-            ency_var +=8
+            ency_var +=8 #This is to start another cycle
+            #after every iteration, all the key-value pairs will be added to ency dictionary.
 
-        self.button_2 = tk.Button(self.canvas, text="Submit", command=self.dispEntry)
+        self.button_2 = tk.Button(self.canvas, text="Submit", command= lambda: self.dispEntry(ency, num))
         self.button_2.pack()
 
-        self.container.update_idletasks()
+        self.container.update_idletasks() #waits for the creation loop to finish and adds all the entries and labels to the container
         self.canvas.config(scrollregion=self.canvas.bbox("all"))
 
         tk.mainloop()
 
-    def dispEntry(self):
+    def dispEntry(self, ency, num):
+        data_list = []
+        counter = 4 #dictionary key value
+
+        #we have 8 elements per entry section: 4 labels and 4 entry points. The entry points are what we are targeting. 
+        for num in range(num):  #the number of entry sections is the amout of times this loop will run (user inputed it at the beginning).
+            for num in range(4):
+                data_list.append(ency[f'{counter}'].get()) #adds the Inventory items into a list. For first entry section, for example, ency 4, 5, 6, and 7 are gotten. Then for the next section we start at ency 12
+                counter += 1 
+            counter += 4 #since 1 is already added to counter after the end of the inner loop we just add 4 here
+
+        print(data_list)
+        self.window2.destroy()
 
         # not showing in permanent text. it is editable
         # Use messagebox here
-        self.window2.destroy()
 
         # for loop that fetches the entered items. Runs num times
-        self.window3 = tk.Tk()
-        self.window3.geometry("200x200")
-        self.window3.title = "Entry results"
+        # self.window3 = tk.Tk()
+        # self.window3.geometry("200x200")
+        # self.window3.title = "Entry results"
 
         # self.txt = tk.Text() #find a better widget to hold text. Permanent text.
         # self.txt.insert(tk.END, f"{entryList}") #currently just displays ['','',...]. (That's cus the list is empty)
         # self.txt.pack()
         # give them a display of all they entered and a question of are you sure you want to enter... into the database. Then have Submit or Edit Entry buttons.
-        tk.mainloop()
+        # tk.mainloop()
 
 
 mygui = myGui()
