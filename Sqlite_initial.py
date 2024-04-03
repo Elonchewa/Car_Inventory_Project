@@ -1,7 +1,8 @@
 import sqlite3
 
 table1 = '''CREATE TABLE IF NOT EXISTS Inventory (Num INTEGER PRIMARY KEY NOT NULL, 
-                                    Car TEXT,
+                                    Brand TEXT,
+                                    Model TEXT,
                                     Year INTEGER,
                                     mpg REAL)'''
 
