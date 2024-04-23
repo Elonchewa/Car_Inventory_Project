@@ -57,7 +57,7 @@ class myGui:
         ency_var = 0
 
         while counter <= num:
-            # for numb in range(num): #creates the amount of entry sections user wants
+            # creates the amount of entry sections user wants
             # 4 entry points.
             ency[f"{ency_var}"] = f"self.txt{counter}_label_1"
             ency[f"{ency_var+1}"] = f"self.txt{counter}_label_2"
