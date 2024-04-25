@@ -54,8 +54,8 @@ class myGui:
         accum = 0  # indicator for row number
         counter = 1  # indicator for how long the loop must run
 
-        ency = {}
-        ency_var = 0
+        ency = {} #dictionary to dynamically hold the entries. Ency just means encyclopedia
+        ency_var = 0 #number for the key of the dictionary
 
         while counter <= num:
             # creates the amount of entry sections user wants
@@ -64,6 +64,8 @@ class myGui:
 
             self.entry_indicator = tk.Label(self.container, text=f"Entry {counter}")
             self.entry_indicator.grid(row=accum, column=1, sticky="w")
+            
+            #first key for ency is '0'
             ency[f"{ency_var}"] = tk.Label(self.container, text="Brand")
             ency[f"{ency_var}"].grid(row=accum + 1, column=0, sticky="w")
             ency[f"{ency_var+1}"] = tk.Label(self.container, text="Model")
@@ -73,6 +75,7 @@ class myGui:
             ency[f"{ency_var+3}"] = tk.Label(self.container, text="MPG")
             ency[f"{ency_var+3}"].grid(row=accum + 1, column=3, sticky="w")
 
+            #entry points start at ency_var+4 which is 4, goes to 7, and adds 4 to loop back around to the second entry section
             ency[f"{ency_var+4}"] = tk.Entry(self.container)
             ency[f"{ency_var+4}"].grid(row=accum + 2, column=0)
             ency[f"{ency_var+5}"] = tk.Entry(self.container)
@@ -86,7 +89,7 @@ class myGui:
             counter += 1
             ency_var += 8  # This is to start another cycle
             # after every iteration, all the key-value pairs will be added to ency dictionary.
-
+        
         self.button_2 = tk.Button(
             self.canvas, text="Submit", command=lambda: self.dispEntry(ency, num)
         )
@@ -99,28 +102,47 @@ class myGui:
 
     def dispEntry(self, ency, num):
         data_list = []
-        counter = 4  # dictionary key value
-
+        ency_var = 4  # dictionary key value
+        print(ency['4'])
         # we have 8 elements per entry section: 4 labels and 4 entry points. The entry points are what we are targeting.
-        for num in range(
-            num
-        ):  # the number of entry sections is the amout of times this loop will run (user inputed it at the beginning).
-            for num in range(4):
+        for number in range(num):  # the number of entry sections is the amout of times this loop will run (user inputed it at the beginning).
+            for numb in range(4):
                 data_list.append(
-                    ency[f"{counter}"].get()
+                    ency[f"{ency_var}"].get()
                 )  # adds the Inventory items into a list. For first entry section, for example, ency 4, 5, 6, and 7 are gotten. Then for the next section we start at ency 12
-                counter += 1
-            counter += 4  # since 1 is already added to counter after the end of the inner loop we just add 4 here
+                ency_var += 1
+            ency_var += 4  # since 1 is already added to counter after the end of the inner loop we just add 4 here
         self.messagebox = tkinter.messagebox.askyesno("Are these correct", f'{data_list}')
         
         # added an if statement to createEntries to handle if User wants to return to entry page in case of error
         if self.messagebox is False:
             self.window2.destroy()
-            self.__init__() #runs everything froms scratch
+            self.__init__() #runs everything from scratch
             
         else:
-            print(data_list)
             self.window2.destroy()
+            #now we start process of adding items to database.
+            self.addDb(ency)
+            print(data_list)
+            
+    def addDb(my_dict):
+        connection = sqlite3.connect('Inventory.db')
+        cursor = connection.cursor()
+        table = '''CREATE TABLE IF NOT EXISTS Inventory (
+                                    Num INTEGER PRIMARY KEY NOT NULL,
+                                    Brand TEXT,
+                                    Model TEXT,
+                                    Year INTEGER,
+                                    mpg REAL)'''
+        #first row is the numbering for the rows
+        cursor.execute(table)
+        print("table created")
 
+
+        #end commands to close cursor and connection
+        cursor.close()
+        connection.commit()
+        connection.close()
+        
 
 mygui = myGui()

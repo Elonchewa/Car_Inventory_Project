@@ -10,6 +10,6 @@ ini = sqlite3.connect("Inventory.db")
 cur= ini.cursor()
 
 cur.execute(table1)
-
+print('tablec created')
 ini.commit()
 ini.close()
