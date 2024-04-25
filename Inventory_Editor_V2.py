@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.messagebox
+import sqlite3
 
 # Git bash cd command cd c:/Users/mengi/OneDrive/Desktop/Car_Inventory_Proj
 
@@ -59,14 +60,7 @@ class myGui:
         while counter <= num:
             # creates the amount of entry sections user wants
             # 4 entry points.
-            ency[f"{ency_var}"] = f"self.txt{counter}_label_1"
-            ency[f"{ency_var+1}"] = f"self.txt{counter}_label_2"
-            ency[f"{ency_var+2}"] = f"self.txt{counter}_label_3"
-            ency[f"{ency_var+3}"] = f"self.txt{counter}_label_4"
-            ency[f"{ency_var+4}"] = f"self.txt{counter}_1"
-            ency[f"{ency_var+5}"] = f"self.txt{counter}_2"
-            ency[f"{ency_var+6}"] = f"self.txt{counter}_3"
-            ency[f"{ency_var+7}"] = f"self.txt{counter}_4"
+            
 
             self.entry_indicator = tk.Label(self.container, text=f"Entry {counter}")
             self.entry_indicator.grid(row=accum, column=1, sticky="w")
