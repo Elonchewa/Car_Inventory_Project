@@ -2,8 +2,8 @@
 
 Two programs. First is the inventory editor:
 
-#Take a car Brand name, model, make year, and MPG
-#multiple models of the same brand
+#Take a car Brand name, model, make year, and MPG and add it into a database. There will be a GUI made using tkinter.
+#multiple models of the same brand can also be inserted
 
 The second is inventory user search:
 
