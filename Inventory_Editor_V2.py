@@ -100,18 +100,23 @@ class myGui:
 
         tk.mainloop()
 
-    def dispEntry(self, ency, num):
-        data_list = []
+    def dispEntry(self, ency, num): #this method is ALSO for debugging
+        data_list = [] #will be a two dimensional list to group different entry sections
         ency_var = 4  # dictionary key value
+        data_list_index = 0
         print(ency['4'])
         # we have 8 elements per entry section: 4 labels and 4 entry points. The entry points are what we are targeting.
-        for number in range(num):  # the number of entry sections is the amout of times this loop will run (user inputed it at the beginning).
+        
+        # the number of entry sections is the amout of times this loop will run (user inputed it at the beginning)
+        for number in range(num):  
+            data_list.append([])
             for numb in range(4):
-                data_list.append(
-                    ency[f"{ency_var}"].get()
-                )  # adds the Inventory items into a list. For first entry section, for example, ency 4, 5, 6, and 7 are gotten. Then for the next section we start at ency 12
+                # adds the Inventory items into a list. For first entry section, for example, ency 4, 5, 6, and 7 are gotten. Then for the next section we start at ency 12
+                data_list[data_list_index].append(ency[f"{ency_var}"].get())  
                 ency_var += 1
             ency_var += 4  # since 1 is already added to counter after the end of the inner loop we just add 4 here
+            data_list_index += 1 #add 1 to make sure data_list has more sub lists added
+        
         self.messagebox = tkinter.messagebox.askyesno("Are these correct", f'{data_list}')
         
         # added an if statement to createEntries to handle if User wants to return to entry page in case of error
@@ -122,22 +127,23 @@ class myGui:
         else:
             self.window2.destroy()
             #now we start process of adding items to database.
-            self.addDb(ency)
+            self.addDb(data_list, num)
             print(data_list)
             
-    def addDb(my_dict):
+    def addDb(self, data_list, num):
         connection = sqlite3.connect('Inventory.db')
         cursor = connection.cursor()
         table = '''CREATE TABLE IF NOT EXISTS Inventory (
-                                    Num INTEGER PRIMARY KEY NOT NULL,
-                                    Brand TEXT,
-                                    Model TEXT,
-                                    Year INTEGER,
-                                    mpg REAL)'''
-        #first row is the numbering for the rows
+                                    Id INTEGER PRIMARY KEY,
+                                    Brand TEXT NOT NULL,
+                                    Model TEXT NOT NULL,
+                                    Year INTEGER NOT NULL,
+                                    Mpg REAL)'''
         cursor.execute(table)
-        print("table created")
-
+        
+        #iterates through the sub-lists of data_list and inputs them into their respective columns
+        for data in data_list:
+            cursor.execute('INSERT INTO Inventory (Brand, Model, Year, Mpg) VALUES (?,?,?,?)', (data[0],data[1],data[2],data[3]))
 
         #end commands to close cursor and connection
         cursor.close()
