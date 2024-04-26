@@ -1,7 +1,0 @@
-
-Toyota 	Sienna 	2023 	23 	
-Toyotta 	Camry 	2013 	19 	
-Toyota 	Corrola 	2019 	22 	
-Toyota 	Corrola 	2018 	20 	
-
-Honda 	Civic 	2019 	20 	
